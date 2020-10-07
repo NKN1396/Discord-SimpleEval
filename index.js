@@ -46,8 +46,8 @@ bot.on("message", async message => {
   }
 })
 
-bot.login(token)
-
 bot.on("ready", () => {
   console.log("Bot ready!")
 })
+
+bot.login(token)
