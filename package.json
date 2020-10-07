@@ -1,0 +1,40 @@
+{
+  "name": "discord_simple-eval",
+  "version": "1.0.0",
+  "description": "A very simple implementation of an eval command.",
+  "main": "index.js",
+  "engines": {
+    "node": "14.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "run": "node .",
+    "test": "eslint server.js"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "discord-js",
+    "discord-bot",
+    "discordjs-bot"
+  ],
+  "author": "NKN1396",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "@nkn1396/eslint-config-nova": "github:NKN1396/nova-eslint",
+    "eslint": "^7.10.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/npm/cli.git"
+  }
+}

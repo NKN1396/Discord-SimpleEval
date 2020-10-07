@@ -1,0 +1,6 @@
+# node_modules
+/node_modules
+
+# Secret stuff
+token.js
+owner.js
