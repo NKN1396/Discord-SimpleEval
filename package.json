@@ -35,6 +35,6 @@
   },
   "repository": {
     "type" : "git",
-    "url" : "https://github.com/npm/cli.git"
+    "url" : "https://github.com/NKN1396/asdf.git"
   }
 }
