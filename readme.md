@@ -1,9 +1,10 @@
 # SimpleEval
 A very simple implementation of an eval command.
-This means you can run code from Discord chat on the fly without having to restart constantly. A great tool for debugging. This command also comes shipped as a default command with `discord.js-commando`.
+This means you can run code from Discord chat on the fly without having to restart constantly - a great tool for debugging!
+This command also comes shipped as a default command with `discord.js-commando`, although this is my own implementation. 
 ## Features
-* Simple - this bot only has like 50 lines of code.
-* Powerful - you can tell your bot to run ANYTHING. (That also includes formatting your entire system!)
+* Simple - the entire bot only has like 50 lines of code.
+* Powerful - you can tell your bot to run ANYTHING. _(Warning: that also includes remote control of whatever system you're running this on!)_
 * Two dependencies - only `discord.js` and `lodash` are required.
 ## Setup
 The bot is exclusively configured through .js files.
