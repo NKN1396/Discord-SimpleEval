@@ -8,8 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "run": "node .",
-    "test": "eslint server.js"
+    "start": "node index.js"
   },
   "keywords": [
     "discord",
@@ -34,7 +33,7 @@
     "eslint-plugin-standard": "^4.0.1"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/NKN1396/asdf.git"
+    "type": "git",
+    "url": "https://github.com/NKN1396/Discord-SimpleEval.git"
   }
 }

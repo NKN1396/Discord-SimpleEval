@@ -8,6 +8,7 @@ This means you can run code from Discord chat on the fly without having to resta
 ## Setup
 The bot is exclusively configured through .js files.
 To run it simply install all dependencies (`npm i`) before using `npm start`.
+Make sure to set `NODE_ENV=production` or otherwise your node_modules folder will quadruple in size!
 ### Token
 Provide your token to the token.js file.
 ### Owner
