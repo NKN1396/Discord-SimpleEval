@@ -13,12 +13,12 @@ This means you can run arbitrary code directly from Discord chat on the fly with
 ### Installation
 Install all dependencies with `npm i`.
 
-### Permissions
-Don't forget to grant your bot all proper permissions.
-You might wanna add intents to `server.mjs`.
-
 ### Configuration
 The bot is exclusively configured through the `config.mjs` file. All you need to do is provide a token.
+
+### Permissions and intents
+Don't forget to grant your bot all proper permissions it needs to function correctly.
+And don't forget to enable the priviliged gateway intents in your bots' settings. In that case, you might also wanna add intents to `server.mjs`.
 
 ### Running the bot
 Simply type `npm start` in the console. The program should handle the rest.
