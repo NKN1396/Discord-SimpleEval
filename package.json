@@ -1,14 +1,14 @@
 {
   "name": "discord_simple-eval",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A very simple implementation of an eval command.",
-  "main": "index.js",
+  "main": "server.mjs",
   "engines": {
-    "node": "14.0.0"
+    "node": "^16.9.0"
   },
-  "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "prestart": "node src/prestart.mjs",
+    "start": "node server.mjs",
     "lint": "standard",
     "test": "standard && npm start"
   },
@@ -22,8 +22,8 @@
   "author": "NKN1396",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^12.3.1",
-    "lodash": "^4.17.20"
+    "@discordjs/rest": "^1.0.0",
+    "discord.js": "^14.0.3"
   },
   "devDependencies": {
     "standard": "^17.0.0"
