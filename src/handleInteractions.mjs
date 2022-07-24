@@ -1,25 +1,14 @@
 // External dependencies
 import { inspect } from 'util'
-
-let ownerId
-
-async function setOwnerId (interaction) {
-  if (ownerId !== undefined) return
-
-  // Owner ID is not yet known, acquire
-  const APPLICATION = await interaction.client.application.fetch()
-  const OWNER = await APPLICATION.owner.fetch()
-  ownerId = OWNER.id
-
-  console.log(`Acquired owner ID: ${ownerId}`)
-}
+import { EmbedBuilder } from 'discord.js'
 
 /**
  * Handles all interactions from the client and executes an expression if called
  * with the evaluation command.
- * @param {*} interaction An interaction received by the client.
+ * @param {*} interaction An interaction received by the client
+ * @param {string} ownerId The owners' user ID.
  */
-export default async function (interaction) {
+export default async function (interaction, ownerId) {
   // Check if we received a slash command
   if (!interaction.isChatInputCommand()) return
 
@@ -31,7 +20,6 @@ export default async function (interaction) {
   await interaction.deferReply({ ephemeral: IS_EPHEMERAL })
 
   // Check if command was sent by owner
-  await setOwnerId(interaction)
   if (interaction?.user.id !== ownerId) {
     // Command was not sent by owner, send rejection
     interaction.editReply("You're not allowed to use this command!")
@@ -40,20 +28,22 @@ export default async function (interaction) {
 
   // Execute expression
   let result
-  const START_TIME = process.hrtime.bigint()
+  const EXPRESSION = interaction.options.getString('expression')
+  let startTime
+  let endTime
   try {
-    const EXPRESSION = interaction.options.getString('expression')
+    startTime = process.hrtime.bigint()
     /* eslint-disable no-eval */
     result = await eval(EXPRESSION)
     /* eslint-enable no-eval */
+    endTime = process.hrtime.bigint()
     result = inspect(result, { depth: 0 })
   } catch (error) {
     result = error
   }
-  const END_TIME = process.hrtime.bigint()
 
   // Output result
-  displayResult(result, interaction, END_TIME, START_TIME)
+  displayResult(result, interaction, startTime, endTime, EXPRESSION)
 }
 
 /**
@@ -63,17 +53,21 @@ export default async function (interaction) {
  * @param {*} END_TIME The process time (in nanoseconds) when the evaluation finished.
  * @param {*} START_TIME The process time (in nanoseconds) when the evaluation started.
  */
-function displayResult (result, interaction, END_TIME, START_TIME) {
+function displayResult (result, interaction, startTime, endTime, expression) {
   if (result instanceof Error) {
     // Result errored
     interaction.editReply(`\`${result.name}: ${result.message}\``)
     return
   }
 
-  // Evaluation successful. Do proper formatting.
-  const EVALUATION_TIME = Number(END_TIME - START_TIME) / 1000000
-  interaction.editReply(
-    `${interaction.user} evaluated in ${EVALUATION_TIME}ms:\n\`\`\`javascript\n${result}\n\`\`\``,
-    { split: { prepend: '```javascript\n', append: '\n```' } }
-  )
+  // Evaluation successful. Generate formatted response.
+  const EVALUATION_TIME = Number(endTime - startTime) / 1000000
+  const REPLY = new EmbedBuilder()
+    .addFields(
+      { name: 'Original expression', value: `\`\`\`${expression}\`\`\`` },
+      { name: 'Run time', value: `${EVALUATION_TIME} ms` }
+    )
+    .setTitle('Result')
+    .setDescription(`\`\`\`javascript\n${result}\n\`\`\``)
+  interaction.editReply({ embeds: [REPLY] })
 }

@@ -1,9 +1,10 @@
 // External dependencies
-import Discord, { GatewayIntentBits } from 'discord.js'
+import Discord from 'discord.js'
 
 // Internal dependencies
-import evaluate from './src/evaluate.mjs'
+import evaluate from './src/handleInteractions.mjs'
 import registerCommand from './src/registerCommand.mjs'
+import getOwnerId from './src/getOwnerId.mjs'
 
 // Configuration
 import { BOT_TOKEN } from './config.mjs'
@@ -18,17 +19,21 @@ import { BOT_TOKEN } from './config.mjs'
 // import luxon from "luxon"
 /* eslint-enable no-unused-vars */
 
-const bot = new Discord.Client({
-  intents: []
+const client = new Discord.Client({ intents: [] })
+
+client.on('ready', async () => {
+  console.log(`Logged in as ${client.user.tag}.`)
+
+  // Register eval slash command globally with the application
+  await registerCommand(client)
+
+  // Acquire owner ID for permission checking
+  const OWNER_ID = await getOwnerId(client)
+
+  // Listen for interactions
+  client.on('interactionCreate', async interaction => {
+    evaluate(interaction, OWNER_ID)
+  })
 })
 
-bot
-  .on('ready', () => {
-    console.log(`Logged in as ${bot.user.tag}.`)
-    registerCommand(bot)
-  })
-  .on('interactionCreate', async interaction => {
-    evaluate(interaction)
-  })
-
-bot.login(BOT_TOKEN)
+client.login(BOT_TOKEN)
