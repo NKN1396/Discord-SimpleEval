@@ -1,3 +1,7 @@
+/**
+ * Startup script for checking existence of the configuration files
+ */
+
 import * as fs from 'fs/promises'
 
 const fileNames = ['config.mjs']

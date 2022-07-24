@@ -26,4 +26,4 @@ Simply type `npm start` in the console. The program should handle the rest.
 ## Usage
 Type `/eval` followed by whatever code you wish to evaluate.
 
-E.g. ``/eval message.channel.send(message.guild.emojis.cache.reduce((acc,cur)=>{return`${acc}\n<${cur.url}>`},""),{split:true})``.
+E.g. ``/eval interaction.guild.fetch()``.
