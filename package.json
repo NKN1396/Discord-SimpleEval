@@ -1,14 +1,16 @@
 {
   "name": "discord_simple-eval",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A very simple implementation of an eval command.",
-  "main": "index.js",
+  "main": "server.mjs",
   "engines": {
-    "node": "14.0.0"
+    "node": "^16.9.0"
   },
-  "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "prestart": "node src/prestart.mjs",
+    "start": "node server.mjs",
+    "lint": "standard",
+    "test": "standard && npm start"
   },
   "keywords": [
     "discord",
@@ -20,17 +22,11 @@
   "author": "NKN1396",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^12.3.1",
-    "lodash": "^4.17.20"
+    "@discordjs/rest": "^1.0.0",
+    "discord.js": "^14.0.3"
   },
   "devDependencies": {
-    "@nkn1396/eslint-config-nova": "github:NKN1396/nova-eslint",
-    "eslint": "^7.10.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "standard": "^17.0.0"
   },
   "repository": {
     "type": "git",
