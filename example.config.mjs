@@ -1,0 +1,1 @@
+export const BOT_TOKEN = 'BOT TOKEN GOES HERE. KEEP IT SECRET!'
