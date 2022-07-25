@@ -19,6 +19,9 @@ import { BOT_TOKEN } from './config.mjs'
 // import luxon from "luxon"
 /* eslint-enable no-unused-vars */
 
+/* eslint-disable no-unused-vars */
+const { IntentsBitField } = Discord
+/* eslint-enable no-unused-vars */
 const client = new Discord.Client({ intents: [] })
 
 client.on('ready', async () => {
