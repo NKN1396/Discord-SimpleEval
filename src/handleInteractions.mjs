@@ -64,7 +64,7 @@ function displayResult (result, interaction, startTime, endTime, expression) {
   const EVALUATION_TIME = Number(endTime - startTime) / 1000000
   const REPLY = new EmbedBuilder()
     .addFields(
-      { name: 'Original expression', value: `\`\`\`${expression}\`\`\`` },
+      { name: 'Original expression', value: `\`\`\`javascript\n${expression}\n\`\`\`` },
       { name: 'Run time', value: `${EVALUATION_TIME} ms` }
     )
     .setTitle('Result')
