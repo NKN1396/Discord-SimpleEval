@@ -26,4 +26,4 @@ Simply type `npm start` in the console. The program should handle the rest.
 ## Usage
 Type `/eval` followed by whatever code you wish to evaluate.
 
-E.g. ``/eval interaction.guild.fetch()``.
+E.g. ``/eval (async ()=>{return (await interaction.guild.fetch()).emojis.fetch()})()``.
