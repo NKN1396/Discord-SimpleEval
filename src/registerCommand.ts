@@ -1,9 +1,9 @@
 // External dependencies
-import Discord, { SlashCommandBuilder, Routes } from 'discord.js'
+import Discord, { SlashCommandBuilder, Routes, Client } from 'discord.js'
 import { REST as DISCORD_REST } from '@discordjs/rest'
 
 // Internal dependencies
-import { BOT_TOKEN } from '../config.mjs'
+import { BOT_TOKEN } from '../config'
 
 /**
  * Check if the eval command has been registered globally. Also checks if the
@@ -11,7 +11,7 @@ import { BOT_TOKEN } from '../config.mjs'
  * @param {*} client The bot client
  * @returns {boolean} Whether or not the eval command is registered correctly
  */
-async function checkEvalCommand (client) {
+async function checkEvalCommand (client : Client) {
   const REGISTERED_COMMANDS = await client.application.commands.fetch()
 
   // Search for eval command
@@ -48,7 +48,7 @@ async function checkEvalCommand (client) {
  * Registers the eval slash command globally.
  * @param {*} client The bot client.
  */
-function registerEvalCommand (client) {
+function registerEvalCommand (client : Client) {
   // Build command
   const EXPRESSION_OPTION = new Discord.SlashCommandStringOption()
     .setName('expression')
@@ -77,7 +77,7 @@ function registerEvalCommand (client) {
  * Ensures, that the eval slash command is registered globally.
  * @param {*} client The bot client
  */
-export default async function (client) {
+export default async function (client : Client) {
   // Check if eval command has already been registered
   const EVAL_COMMAND_EXISTS = await checkEvalCommand(client)
   if (EVAL_COMMAND_EXISTS) return
