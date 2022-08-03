@@ -9,8 +9,8 @@
   "scripts": {
     "prestart": "node src/prestart.mjs",
     "start": "node server.mjs",
-    "lint": "standard",
-    "test": "standard && npm start"
+    "lint": "npx prettier --write . && npx ts-standard --fix .",
+    "test": "npm run lint && npm start"
   },
   "keywords": [
     "discord",
@@ -26,8 +26,9 @@
     "discord.js": "^14.0.3"
   },
   "devDependencies": {
-    "standard": "^17.0.0"
+    "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
+    "ts-standard": "^11.0.0",
   },
   "repository": {
     "type": "git",
