@@ -2,12 +2,12 @@
 import Discord from 'discord.js'
 
 // Internal dependencies
-import evaluate from './src/handleInteractions.mjs'
-import registerCommand from './src/registerCommand.mjs'
-import getOwnerId from './src/getOwnerId.mjs'
+import evaluate from './handleInteractions.js'
+import registerCommand from './registerCommand.js'
+import getOwnerId from './getOwnerId.js'
 
 // Configuration
-import { BOT_TOKEN } from './config.mjs'
+import { BOT_TOKEN } from '../config'
 
 /**
  * Utility dependencies for use inside of eval commands.
@@ -25,7 +25,7 @@ const { IntentsBitField } = Discord
 const client = new Discord.Client({ intents: [] })
 
 client.on('ready', async () => {
-  console.log(`Logged in as ${client.user.tag}.`)
+  console.log(`Logged in as ${client.user?.tag}.`)
 
   // Register eval slash command globally with the application
   await registerCommand(client)
