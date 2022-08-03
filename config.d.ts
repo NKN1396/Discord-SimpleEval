@@ -1,1 +1,1 @@
-export const BOT_TOKEN : string
+export const BOT_TOKEN: string

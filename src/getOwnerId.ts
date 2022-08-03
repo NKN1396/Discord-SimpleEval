@@ -1,15 +1,18 @@
-import { Client, ClientApplication, User } from "discord.js"
+import { Client, ClientApplication, User } from 'discord.js'
 
 /**
  * Acquires the user ID of the application owner.
  * @param {Client} client The Discord client of the bot.
  * @returns {Promise<string>} The user ID of the application owner.
  */
-export default async function (client : Client): Promise<string> {
+export default async function (client: Client): Promise<string> {
   // Get application
-  const application : ClientApplication | undefined = await client.application?.fetch()
+  const application: ClientApplication | undefined =
+    await client.application?.fetch()
   if (application === undefined) {
-    throw new Error('Client application is undefined. Is the client not ready yet?')
+    throw new Error(
+      'Client application is undefined. Is the client not ready yet?'
+    )
   }
 
   // Get owner

@@ -11,7 +11,7 @@ import { BOT_TOKEN } from '../config'
  * @param {*} client The bot client
  * @returns {boolean} Whether or not the eval command is registered correctly
  */
-async function checkEvalCommand (client : Client) {
+async function checkEvalCommand (client: Client) {
   const REGISTERED_COMMANDS = await client.application.commands.fetch()
 
   // Search for eval command
@@ -48,7 +48,7 @@ async function checkEvalCommand (client : Client) {
  * Registers the eval slash command globally.
  * @param {*} client The bot client.
  */
-function registerEvalCommand (client : Client) {
+function registerEvalCommand (client: Client) {
   // Build command
   const EXPRESSION_OPTION = new Discord.SlashCommandStringOption()
     .setName('expression')
@@ -56,19 +56,22 @@ function registerEvalCommand (client : Client) {
     .setRequired(true)
   const EPHEMERAL_OPTION = new Discord.SlashCommandBooleanOption()
     .setName('ephemeral')
-    .setDescription('Whether or not evaluation result will be hidden from other people.')
+    .setDescription(
+      'Whether or not evaluation result will be hidden from other people.'
+    )
     .setRequired(false)
   const COMMAND = new SlashCommandBuilder()
     .setName('eval')
     .setDescription('Evaluates a JavaScript expression.')
     .addStringOption(EXPRESSION_OPTION)
     .addBooleanOption(EPHEMERAL_OPTION)
-  const COMMANDS = [COMMAND]
-    .map(command => command.toJSON())
+  const COMMANDS = [COMMAND].map((command) => command.toJSON())
 
   // Register built command
   const REST = new DISCORD_REST({ version: '10' }).setToken(BOT_TOKEN)
-  REST.put(Routes.applicationCommands(client.application.id), { body: COMMANDS })
+  REST.put(Routes.applicationCommands(client.application.id), {
+    body: COMMANDS
+  })
     .then(() => console.log('Successfully registered eval command.'))
     .catch(console.error)
 }
@@ -77,7 +80,7 @@ function registerEvalCommand (client : Client) {
  * Ensures, that the eval slash command is registered globally.
  * @param {*} client The bot client
  */
-export default async function (client : Client) {
+export default async function (client: Client) {
   // Check if eval command has already been registered
   const EVAL_COMMAND_EXISTS = await checkEvalCommand(client)
   if (EVAL_COMMAND_EXISTS) return
