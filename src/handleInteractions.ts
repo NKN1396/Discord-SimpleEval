@@ -1,14 +1,14 @@
 // External dependencies
 import { inspect } from 'util'
-import { EmbedBuilder } from 'discord.js'
+import { EmbedBuilder, Interaction, CommandInteraction } from 'discord.js'
 
 /**
  * Handles all interactions from the client and executes an expression if called
  * with the evaluation command.
- * @param {*} interaction An interaction received by the client
+ * @param {Interaction} interaction An interaction received by the client
  * @param {string} ownerId The owners' user ID.
  */
-export default async function (interaction, ownerId) {
+export default async function (interaction : Interaction, ownerId : string) {
   // Check if we received a slash command
   if (!interaction.isChatInputCommand()) return
 
@@ -27,33 +27,33 @@ export default async function (interaction, ownerId) {
   }
 
   // Execute expression
-  let result
-  const EXPRESSION = interaction.options.getString('expression')
-  let startTime
-  let endTime
+  let result : string | unknown
+  const expression = interaction.options.getString('expression')
+  let startTime : bigint = 0n
+  let endTime : bigint = 0n
   try {
     startTime = process.hrtime.bigint()
     /* eslint-disable no-eval */
-    result = await eval(EXPRESSION)
+    result = await eval(`(async ()=>{return ${expression}})()`)
     /* eslint-enable no-eval */
     endTime = process.hrtime.bigint()
     result = inspect(result, { depth: 0 })
-  } catch (error) {
+  } catch (error : unknown) {
     result = error
   }
 
   // Output result
-  displayResult(result, interaction, startTime, endTime, EXPRESSION)
+  displayResult(result, interaction, startTime, endTime, expression)
 }
 
 /**
  * Displays the result of the evaluated expression as a formatted message.
- * @param {*} result The result of the evaluated expression. Can bei either a string or an Error object.
+ * @param {string | unknown} result The result of the evaluated expression. Can bei either a string or an Error object.
  * @param {*} interaction The interaction that instantiated the evaluation.
  * @param {*} END_TIME The process time (in nanoseconds) when the evaluation finished.
  * @param {*} START_TIME The process time (in nanoseconds) when the evaluation started.
  */
-function displayResult (result, interaction, startTime, endTime, expression) {
+function displayResult (result : string | unknown, interaction : CommandInteraction, startTime : bigint, endTime : bigint, expression : string | null) {
   if (result instanceof Error) {
     // Result errored
     interaction.editReply(`\`${result.name}: ${result.message}\``)
