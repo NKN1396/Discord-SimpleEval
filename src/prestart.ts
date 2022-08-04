@@ -2,6 +2,7 @@
  * Startup script for checking existence of the configuration files
  */
 
+// External dependencies
 import * as fs from 'fs/promises'
 
 const fileNames = ['config.mjs']
