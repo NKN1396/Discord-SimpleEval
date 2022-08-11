@@ -26,13 +26,16 @@ export default async function (
   // Check if command was sent by owner
   if (interaction?.user.id !== ownerId) {
     // Command was not sent by owner, send rejection
-    interaction.editReply("You're not allowed to use this command!")
+    void interaction.editReply("You're not allowed to use this command!")
     return
   }
 
   // Execute expression
   let result: string | unknown
   const expression = interaction.options.getString('expression')
+  if (expression === null) {
+    throw new Error('Expression received is null.')
+  }
   let startTime: bigint = 0n
   let endTime: bigint = 0n
   try {
@@ -56,18 +59,18 @@ export default async function (
  * @param {CommandInteraction} interaction The interaction that instantiated the evaluation.
  * @param {bigint} startTime The process time (in nanoseconds) when the evaluation finished.
  * @param {bigint} endTime The process time (in nanoseconds) when the evaluation started.
- * @param {string | null} expression The string containing the expression to evaluate.
+ * @param {string} expression The string containing the expression to evaluate.
  */
 function displayResult (
   result: string | unknown,
   interaction: CommandInteraction,
   startTime: bigint,
   endTime: bigint,
-  expression: string | null
+  expression: string
 ): void {
   if (result instanceof Error) {
     // Result errored
-    interaction.editReply(`\`${result.name}: ${result.message}\``)
+    void interaction.editReply(`\`${result.name}: ${result.message}\``)
     return
   }
 
@@ -83,5 +86,5 @@ function displayResult (
     )
     .setTitle('Result')
     .setDescription(`\`\`\`javascript\n${result}\n\`\`\``)
-  interaction.editReply({ embeds: [REPLY] })
+  void interaction.editReply({ embeds: [REPLY] })
 }

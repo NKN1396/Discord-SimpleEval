@@ -1,5 +1,11 @@
 // External dependencies
-import Discord, { SlashCommandBuilder, Routes, Client } from 'discord.js'
+import Discord, {
+  SlashCommandBuilder,
+  Routes,
+  Client,
+  ApplicationCommandOption,
+  ApplicationCommandOptionType
+} from 'discord.js'
 import { REST as DISCORD_REST } from '@discordjs/rest'
 
 // Internal dependencies
@@ -8,17 +14,22 @@ import { BOT_TOKEN } from '../config'
 /**
  * Check if the eval command has been registered globally. Also checks if the
  * command options are correct.
- * @param {*} client The bot client
- * @returns {boolean} Whether or not the eval command is registered correctly
+ * @param {Client} client The bot client
+ * @returns {Promise<boolean>} Whether or not the eval command is registered correctly
  */
-async function checkEvalCommand (client: Client) {
-  const REGISTERED_COMMANDS = await client.application.commands.fetch()
+async function checkEvalCommand (client: Client): Promise<boolean> {
+  // Get commands
+  const application = await client.application?.fetch()
+  if (application === undefined) {
+    throw new Error('Client application is null. Is the client not ready yet?')
+  }
+  const registeredCommands = await application.commands.fetch()
 
   // Search for eval command
   let evalCommand
-  for (const REGISTERED_COMMAND of REGISTERED_COMMANDS.values()) {
-    if (REGISTERED_COMMAND.name === 'eval') {
-      evalCommand = REGISTERED_COMMAND
+  for (const registeredCommand of registeredCommands.values()) {
+    if (registeredCommand.name === 'eval') {
+      evalCommand = registeredCommand
       break
     }
   }
@@ -28,17 +39,28 @@ async function checkEvalCommand (client: Client) {
   }
 
   // Eval command found, check validity
-  const EVAL_OPTIONS = evalCommand.options
-  const EXPRESSION_OPTION = EVAL_OPTIONS[0]
-  const EPHEMERAL_OPTION = EVAL_OPTIONS[1]
+  let evalOptions
+  let expressionOption: ApplicationCommandOption
+  let ephemeralOption: ApplicationCommandOption
+  try {
+    evalOptions = evalCommand.options
+    expressionOption = evalOptions[0]
+    ephemeralOption = evalOptions[1]
+  } catch (error) {
+    return false
+  }
   // Check expression option
-  if (EXPRESSION_OPTION.name !== 'expression') return false
-  if (EXPRESSION_OPTION.type !== 3) return false
-  if (EXPRESSION_OPTION.required !== true) return false
+  if (expressionOption.name !== 'expression') return false
+  if (expressionOption.type !== ApplicationCommandOptionType.String) {
+    return false
+  }
+  if (expressionOption.required !== true) return false
   // Check ephemeral option
-  if (EPHEMERAL_OPTION.name !== 'ephemeral') return false
-  if (EPHEMERAL_OPTION.type !== 5) return false
-  if (EPHEMERAL_OPTION.required !== false) return false
+  if (ephemeralOption.name !== 'ephemeral') return false
+  if (ephemeralOption.type !== ApplicationCommandOptionType.Boolean) {
+    return false
+  }
+  if (ephemeralOption.required !== false) return false
 
   // Command is valid
   return true
@@ -48,7 +70,7 @@ async function checkEvalCommand (client: Client) {
  * Registers the eval slash command globally.
  * @param {*} client The bot client.
  */
-function registerEvalCommand (client: Client) {
+async function registerEvalCommand (client: Client) {
   // Build command
   const EXPRESSION_OPTION = new Discord.SlashCommandStringOption()
     .setName('expression')
@@ -69,7 +91,11 @@ function registerEvalCommand (client: Client) {
 
   // Register built command
   const REST = new DISCORD_REST({ version: '10' }).setToken(BOT_TOKEN)
-  REST.put(Routes.applicationCommands(client.application.id), {
+  const application = await client.application?.fetch()
+  if (application === undefined) {
+    throw new Error('Client application is null. Is the client not ready yet?')
+  }
+  REST.put(Routes.applicationCommands(application.id), {
     body: COMMANDS
   })
     .then(() => console.log('Successfully registered eval command.'))
