@@ -19,7 +19,7 @@ Install all dependencies with `npm i`.
 
 ### Configuration
 
-The bot is exclusively configured through the `config.mjs` file. All you need to do is provide a token.
+The bot is exclusively configured through the `config.js` file. All you need to do is provide a token.
 
 ### Permissions and intents
 
