@@ -31,7 +31,7 @@ export default async function (
   }
 
   // Execute expression
-  let result: string | unknown
+  let result: string
   const expression = interaction.options.getString('expression')
   if (expression === null) {
     throw new Error('Expression received is null.')
@@ -45,8 +45,9 @@ export default async function (
     /* eslint-enable no-eval */
     endTime = process.hrtime.bigint()
     result = inspect(result, { depth: 0 })
-  } catch (error: unknown) {
-    result = error
+  } catch (error) {
+    displayError(interaction, error)
+    return
   }
 
   // Output result
@@ -54,26 +55,36 @@ export default async function (
 }
 
 /**
+ * Displays the error that occured during the evaluation of an expression.
+ * @param {CommandInteraction} interaction The interaction that instantiated the evaluation.
+ * @param {unknown} error The error that occured.
+ */
+function displayError (interaction: CommandInteraction, error: unknown): void {
+  if (error instanceof Error) {
+    // Error instance received
+    void interaction.editReply(`\`${error.name}: ${error.message}\``)
+    return
+  }
+
+  // Some other (unknown) error was received
+  void interaction.editReply(`\`${error}\``)
+}
+
+/**
  * Displays the result of the evaluated expression as a formatted message.
- * @param {string | unknown} result The result of the evaluated expression. Can bei either a string or an Error object.
+ * @param {string} result The result of the evaluated expression.
  * @param {CommandInteraction} interaction The interaction that instantiated the evaluation.
  * @param {bigint} startTime The process time (in nanoseconds) when the evaluation finished.
  * @param {bigint} endTime The process time (in nanoseconds) when the evaluation started.
  * @param {string} expression The string containing the expression to evaluate.
  */
 function displayResult (
-  result: string | unknown,
+  result: string,
   interaction: CommandInteraction,
   startTime: bigint,
   endTime: bigint,
   expression: string
 ): void {
-  if (result instanceof Error) {
-    // Result errored
-    void interaction.editReply(`\`${result.name}: ${result.message}\``)
-    return
-  }
-
   // Evaluation successful. Generate formatted response.
   const EVALUATION_TIME = Number(endTime - startTime) / 1000000
   const REPLY = new EmbedBuilder()
