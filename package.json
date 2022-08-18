@@ -1,6 +1,6 @@
 {
   "name": "discord_simple-eval",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "A very simple implementation of an eval command.",
   "type": "module",
   "main": "./dist/server.js",
