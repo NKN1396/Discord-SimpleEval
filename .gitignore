@@ -1,8 +1,5 @@
 # node_modules
 /node_modules/
 
-# Not yet
-/dist/
-
 # Secret stuff
 /config.js
