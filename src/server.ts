@@ -1,5 +1,5 @@
 // External dependencies
-import Discord from 'discord.js'
+import { Client, IntentsBitField } from 'discord.js'
 
 // Internal dependencies
 import evaluate from './handleInteractions.js'
@@ -19,7 +19,24 @@ import { BOT_TOKEN } from '../config.js'
 // import luxon from "luxon"
 /* eslint-enable no-unused-vars */
 
-const client = new Discord.Client({ intents: [] })
+const client = new Client({
+  intents: [
+    IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildBans,
+    IntentsBitField.Flags.GuildEmojisAndStickers,
+    IntentsBitField.Flags.GuildIntegrations,
+    IntentsBitField.Flags.GuildWebhooks,
+    IntentsBitField.Flags.GuildInvites,
+    IntentsBitField.Flags.GuildVoiceStates,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.GuildMessageReactions,
+    IntentsBitField.Flags.GuildMessageTyping,
+    IntentsBitField.Flags.DirectMessages,
+    IntentsBitField.Flags.DirectMessageReactions,
+    IntentsBitField.Flags.DirectMessageTyping,
+    IntentsBitField.Flags.GuildScheduledEvents
+  ]
+})
 
 client.on('ready', async () => {
   console.log(`Logged in as ${client.user?.tag}.`)
