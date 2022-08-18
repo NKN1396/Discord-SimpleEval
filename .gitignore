@@ -1,5 +1,5 @@
 # node_modules
-/node_modules
+/node_modules/
 
 # Secret stuff
-config.mjs
+/config.js

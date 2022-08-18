@@ -2,9 +2,10 @@
  * Startup script for checking existence of the configuration files
  */
 
+// External dependencies
 import * as fs from 'fs/promises'
 
-const fileNames = ['config.mjs']
+const fileNames = ['config.js']
 
 for (const fileName of fileNames) {
   // Check if file exists in root directory
@@ -13,7 +14,9 @@ for (const fileName of fileNames) {
     continue
   } catch (e) {}
   // File doesn't exist yet and needs to be created
-  console.log(`Could not open ${fileName}. Attempting to copy from example.${fileName}.`)
+  console.log(
+    `Could not open ${fileName}. Attempting to copy from example.${fileName}.`
+  )
 
   // Check if example file exists in root directory
   try {
