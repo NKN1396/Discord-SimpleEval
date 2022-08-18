@@ -2,15 +2,16 @@
   "name": "discord_simple-eval",
   "version": "2.0.3",
   "description": "A very simple implementation of an eval command.",
+  "type": "module",
   "main": "./dist/server.js",
   "engines": {
     "node": "^16.9.0"
   },
   "scripts": {
-    "prestart": "node src/prestart.mjs",
-    "start": "node server.mjs",
+    "prestart": "node dist/prestart.js",
+    "start": "node dist/server.js",
     "lint": "npx prettier --write . && npx ts-standard --fix .",
-    "test": "npm run lint && npm start"
+    "test": "npx -p typescript tsc && npm start"
   },
   "keywords": [
     "discord",
