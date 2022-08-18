@@ -5,7 +5,7 @@
 // External dependencies
 import * as fs from 'fs/promises'
 
-const fileNames = ['config.mjs']
+const fileNames = ['config.js']
 
 for (const fileName of fileNames) {
   // Check if file exists in root directory

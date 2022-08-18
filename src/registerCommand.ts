@@ -9,7 +9,7 @@ import Discord, {
 import { REST as DISCORD_REST } from '@discordjs/rest'
 
 // Internal dependencies
-import { BOT_TOKEN } from '../config'
+import { BOT_TOKEN } from '../config.js'
 
 /**
  * Check if the eval command has been registered globally. Also checks if the

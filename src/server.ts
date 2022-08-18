@@ -7,7 +7,7 @@ import registerCommand from './registerCommand.js'
 import getOwnerId from './getOwnerId.js'
 
 // Configuration
-import { BOT_TOKEN } from '../config'
+import { BOT_TOKEN } from '../config.js'
 
 /**
  * Utility dependencies for use inside of eval commands.
