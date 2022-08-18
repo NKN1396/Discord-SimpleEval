@@ -70,7 +70,7 @@ async function checkEvalCommand (client: Client): Promise<boolean> {
  * Registers the eval slash command globally.
  * @param {*} client The bot client.
  */
-async function registerEvalCommand (client: Client) {
+async function registerEvalCommand (client: Client): Promise<void> {
   // Build command
   const EXPRESSION_OPTION = new Discord.SlashCommandStringOption()
     .setName('expression')
@@ -106,12 +106,12 @@ async function registerEvalCommand (client: Client) {
  * Ensures, that the eval slash command is registered globally.
  * @param {*} client The bot client
  */
-export default async function (client: Client) {
+export default async function (client: Client): Promise<void> {
   // Check if eval command has already been registered
   const EVAL_COMMAND_EXISTS = await checkEvalCommand(client)
   if (EVAL_COMMAND_EXISTS) return
 
   // Eval command has not been registered yet
   console.log('Eval command has not been registered yet.')
-  registerEvalCommand(client)
+  void registerEvalCommand(client)
 }
